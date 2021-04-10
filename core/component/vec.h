@@ -3,7 +3,8 @@
 #include<cmath>
 #include<cstdlib>
 #include<cassert>
-
+#include<algorithm>
+#include<iostream>
 
 template <typename T>class Vector2
 {
@@ -75,7 +76,7 @@ public:
 	}	
 	T operator[] (int i)const
 	{
-		Assert(i >= 0 && i <= 2);
+		assert(i >= 0 && i <= 2);
 		if (i == 0)return x;
 		if (i == 1)return y;
 		return z;

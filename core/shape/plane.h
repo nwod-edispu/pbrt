@@ -7,9 +7,9 @@ class Plane: public Shape
 public:
     Plane(Material* material, Vector3f normal, Point3f p);
 
-    virtual bool intersect(const Ray &r, float tMin, float tMax, hit_recorder &rec)const ;
+    virtual bool Intersect(const Ray &r, float tMin, float tMax, hit_recorder &rec)const ;
 
-    virtual Bounds3f ObjectBound() const;
+    virtual bool ObjectBound(Bounds3f &box) const;
     Vector3f normal;
     Point3f pinp;
 };

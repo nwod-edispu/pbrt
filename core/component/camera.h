@@ -1,6 +1,7 @@
 #ifndef RAY_CAMERA_H
 #define RAY_CAMERA_H
-#include"geometry.h"
+#include"../utils/utils.h"
+#include"../utils/const.h"
 #include"ray.h"
 
 class Camera

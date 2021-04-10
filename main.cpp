@@ -1,21 +1,19 @@
 #include"core/component/camera.h"
 #include"core/shape/sphere.h"
-#include"core/shape/plane.h"
-#include"core/shape/cylinder.h"
 #include"core/shape/triangle.h"
 #include"core/shape/obj_parser.h"
+#include"core/shape/bvh_node.h"
 #include"core/shape/shape_list.h"
-#include"core/component/material.h"
 
 
-Vector3f color(const Ray &r, ShapeList *world, int depth)
+Vector3f color(const Ray &r, Shape *world, int depth)
 {
     hit_recorder rec;
-    if (world->hit(r, 0.001, Infinity, rec))
+    if (world->Intersect(r, 0.001, Infinity, rec))
     {
         Ray scatter;
         Vector3f attenuation;
-        if (depth < 5 && rec.mat_ptr->scatter(r, rec, attenuation, scatter))
+        if (depth < 20 && rec.mat_ptr->scatter(r, rec, attenuation, scatter))
         {
             return attenuation * color(scatter, world, depth + 1);
         } else
@@ -34,7 +32,7 @@ Vector3f color(const Ray &r, ShapeList *world, int depth)
 
 Camera getCamera(float nx, float ny)
 {
-    Point3f lookfrom = Point3f(5, 2.5, 3);
+    Point3f lookfrom = Point3f(4, 2.5, 3);
     Point3f lookat = Point3f(0, 0.6, 0);
     float disk_to_focus = (lookfrom - lookat).Length();
     float aperture = 0.0;
@@ -46,30 +44,33 @@ Camera getCamera(float nx, float ny)
 int main()
 {
     std::ofstream out("a.ppm");
-    const int nx = 200;
-    const int ny = 100;
-    const int ns = 30;
+    const int nx = 400;
+    const int ny = 200;
+    const int ns = 100;
     out << "P3\n" << nx << " " << ny << "\n255\n";
 
-    int n = 500;
+    int n = 1000;
     Shape **list = new Shape *[n + 1];
-    int cnt = 1;
+    int cnt = 0;
     RandomScene(list, cnt);
+    auto *head = new BvhNode(list, cnt, 0, 0);
 
-    auto *world = new ShapeList(list, cnt);
+//    auto *world = new ShapeList(list, cnt);
     Camera cam = getCamera(nx, ny);
     for (int j = ny - 1; j >= 0; j--)
     {
         std::cout << "j:" << j << std::endl;
         for (int i = 0; i < nx; i++)
         {
+//            std::cout << "i:" << i << std::endl;
             Vector3f col(0.f, 0.f, 0.f);
             for (int s = 0; s < ns; s++)
             {
+//                std::cout << "s:" << s << std::endl;
                 float u = float(i + RandFloat()) / float(nx);
                 float v = float(j + RandFloat()) / float(ny);
                 Ray r = cam.get_ray(u, v);
-                col += color(r, world, 0);
+                col += color(r, head, 0);
             }
             col /= float(ns);
             //gamma correct

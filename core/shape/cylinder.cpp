@@ -6,11 +6,11 @@ Cylinder::Cylinder(Material *material, Point3f center, float radius, float yMin,
     disk = new Disk(material, Vector3f(0, 1, 0), Point3f(center.x, yMax, center.z), radius);
 }
 
-bool Cylinder::intersect(const Ray &r, float tMin, float tMax, hit_recorder &rec) const
+bool Cylinder::Intersect(const Ray &r, float tMin, float tMax, hit_recorder &rec) const
 {
     hit_recorder tmp_rec;
     tmp_rec.t = tMax;
-    bool hit_disk = disk->intersect(r, tMin, tMax, tmp_rec);
+    bool hit_disk = disk->Intersect(r, tMin, tMax, tmp_rec);
     rec.mat_ptr = material;
     float a = r.d.x * r.d.x + r.d.z * r.d.z;
     float b = r.d.x * (r.o.x - center.x) + r.d.z * (r.o.z - center.z);
@@ -64,7 +64,10 @@ bool Cylinder::intersect(const Ray &r, float tMin, float tMax, hit_recorder &rec
     return false;
 }
 
-Bounds3f Cylinder::ObjectBound() const
+bool Cylinder::ObjectBound(Bounds3f &box) const
 {
-    return Bounds3f();
+    Point3f p1 = Point3f(center.x, yMin, center.z) - Vector3f(radius, 0, radius);
+    Point3f p2 = Point3f(center.x, yMax, center.z) + Vector3f(radius, 0, radius);
+    box=Bounds3f(p1, p2);
+    return true;
 }

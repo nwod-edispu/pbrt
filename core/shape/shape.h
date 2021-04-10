@@ -3,8 +3,7 @@
 
 #include"../component/transform.h"
 #include"../component/bounds.h"
-#include"../component/ray.h"
-#include"../component/geometry.h"
+#include"../utils/utils.h"
 
 class Material;
 
@@ -22,13 +21,12 @@ class Shape
 public:
     Shape(Material* material);
 
-    virtual bool intersect(const Ray &r, float tMin, float tMax, hit_recorder &rec) const = 0;
+    virtual bool Intersect(const Ray &r, float tMin, float tMax, hit_recorder &rec) const = 0;
 
     Material* material;
 
-    virtual Bounds3f ObjectBound() const = 0;
+    virtual bool ObjectBound(Bounds3f &box) const = 0;
 
-    Bounds3f WorldBound() const;
 
 
 };

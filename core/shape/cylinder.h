@@ -12,9 +12,9 @@ class Cylinder : public Shape
 public:
     Cylinder(Material *material,Point3f center,
                float radius, float yMin, float yMax);
-    virtual bool intersect(const Ray &r, float tMin, float tMax, hit_recorder &rec)const ;
+    virtual bool Intersect(const Ray &r, float tMin, float tMax, hit_recorder &rec)const ;
 
-    virtual Bounds3f ObjectBound() const;
+    virtual bool ObjectBound(Bounds3f &box) const;
     float yMin,yMax;
     Point3f center;
     float radius;

@@ -4,7 +4,7 @@
 
 #include "sphere.h"
 
-bool Sphere::intersect(const Ray &r, float tMin, float tMax, hit_recorder &rec) const
+bool Sphere::Intersect(const Ray &r, float tMin, float tMax, hit_recorder &rec) const
 {
     rec.mat_ptr = material;
     Vector3f oc = r.o - center;
@@ -34,13 +34,16 @@ bool Sphere::intersect(const Ray &r, float tMin, float tMax, hit_recorder &rec) 
     return false;
 }
 
-Sphere::Sphere(Material *material,Point3f cen, float r)
+Sphere::Sphere(Material *material, Point3f cen, float r)
         : Shape(material), center(cen), radius(r)
 {
 
 }
 
-Bounds3f Sphere::ObjectBound() const
+bool Sphere::ObjectBound(Bounds3f &box) const
 {
-    return Bounds3f();
+    Point3f p1 = center - Vector3f(radius, radius, radius);
+    Point3f p2 = center + Vector3f(radius, radius, radius);
+    box = Bounds3f(p1, p2);
+    return true;
 }

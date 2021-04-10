@@ -1,9 +1,8 @@
 #ifndef RAY_MATERIAL_H
 #define RAY_MATERIAL_H
 
-#include"ray.h"
 #include"../shape/shape.h"
-#include"../utils/utils.h"
+
 
 Vector3f reflect(const Vector3f &v, const Vector3f &n)
 {

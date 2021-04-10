@@ -8,13 +8,16 @@
 #include<fstream>
 #include<climits>
 #include"../component/geometry.h"
-#define PI 3.141593
-#define Infinity INT_MAX
 
 float RandFloat();
 
 Vector3f RandomInUnitSphere();
 
 Vector3f RandomInUnitDisk();
+
+inline float Fmin(float a, float b);
+
+inline float Fmax(float a, float b);
+
 
 #endif //RAY_UTILS_H

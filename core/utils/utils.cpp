@@ -30,3 +30,13 @@ Vector3f RandomInUnitDisk()
     } while (Dot(p, p) >= 1.0);
     return p;
 }
+
+float Fmin(float a, float b)
+{
+    return a < b ? a : b;
+}
+
+float Fmax(float a, float b)
+{
+    return a > b ? a : b;
+}

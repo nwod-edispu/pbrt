@@ -2,7 +2,9 @@
 #define RAY_H
 
 #include"medium.h"
-#include"../utils/utils.h"
+#include"vec.h"
+#include "point.h"
+#include"../utils/const.h"
 
 class Ray
 {

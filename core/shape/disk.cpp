@@ -10,7 +10,7 @@ Disk::Disk(Material *material, Vector3f normal, Point3f p, float radius)
 {
 }
 
-bool Disk::intersect(const Ray &r, float tMin, float tMax, hit_recorder &rec) const
+bool Disk::Intersect(const Ray &r, float tMin, float tMax, hit_recorder &rec) const
 {
     rec.mat_ptr = material;
     float t = Dot(center - r.o, normal) / Dot(r.d, normal);
@@ -27,7 +27,10 @@ bool Disk::intersect(const Ray &r, float tMin, float tMax, hit_recorder &rec) co
     return false;
 }
 
-Bounds3f Disk::ObjectBound() const
+bool Disk::ObjectBound(Bounds3f &box) const
 {
-    return Bounds3f();
+    Point3f small = Point3f(center.x - radius, center.y, center.z - radius);
+    Point3f big = Point3f(center.x + radius, center.y, center.z + radius);
+    box = Bounds3f(small, big);
+    return true;
 }

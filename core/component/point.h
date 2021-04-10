@@ -61,6 +61,20 @@ public:
         z -= v.z;
         return *this;
     }
+    T operator[] (int i)const
+    {
+        assert(i >= 0 && i <= 2);
+        if (i == 0)return x;
+        if (i == 1)return y;
+        return z;
+    }
+    T& operator[] (int i)
+    {
+        assert(i >= 0 && i <= 2);
+        if (i == 0)return x;
+        if (i == 1)return y;
+        return z;
+    }
 };
 
 template<typename T>

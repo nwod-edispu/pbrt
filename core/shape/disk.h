@@ -10,9 +10,9 @@ class Disk:public Shape
 {
 public:
     Disk(Material *material,Vector3f normal,Point3f center,float radius);
-    virtual bool intersect(const Ray &r, float tMin, float tMax, hit_recorder &rec)const ;
+    bool Intersect(const Ray &r, float tMin, float tMax, hit_recorder &rec)const override ;
 
-    virtual Bounds3f ObjectBound() const;
+    bool ObjectBound(Bounds3f &box) const override;
     Vector3f normal;
     Point3f center;
     float radius;

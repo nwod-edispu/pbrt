@@ -9,7 +9,7 @@ Plane::Plane(Material *material, Vector3f normal, Point3f p)
 {
 }
 
-bool Plane::intersect(const Ray &r, float tMin, float tMax, hit_recorder &rec) const
+bool Plane::Intersect(const Ray &r, float tMin, float tMax, hit_recorder &rec) const
 {
     rec.mat_ptr = material;
     float t = Dot(pinp - r.o, normal) / Dot(r.d, normal);
@@ -23,7 +23,7 @@ bool Plane::intersect(const Ray &r, float tMin, float tMax, hit_recorder &rec) c
     return false;
 }
 
-Bounds3f Plane::ObjectBound() const
+bool Plane::ObjectBound(Bounds3f &box) const
 {
-    return Bounds3f();
+    return false;
 }

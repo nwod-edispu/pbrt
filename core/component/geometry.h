@@ -1,10 +1,9 @@
 #ifndef GEOMETRY_H
 #define GEOMETRY_H
 
-#include"vec.h"
+#include<algorithm>
 #include"point.h"
 #include"normal.h"
-#include"bounds.h"
 
 
 template<typename T>
@@ -88,6 +87,12 @@ Vector3<T> Unit(const Vector3<T> &v)
     return v / v.Length();
 }
 
+template<typename T>
+std::ostream &operator<<(std::ostream &out, Vector3<T> &v)
+{
+    out << "Vector(" << v.x << ", " << v.y << ", " << v.z << ")";
+    return out;
+}
 //
 //template <typename T> inline
 //Vector3<T>::Vector3(const Normal3<T>& normal):x(normal.x), y(normal.y), z(normal.z)
@@ -158,6 +163,13 @@ Point3<T> Permute(const Point3<T> &p, int x, int y, int z)
     return Point3<T>(p[x], p[y], p[z]);
 }
 
+template<typename T>
+std::ostream &operator<<(std::ostream &out, Point3<T> &p)
+{
+    out << "Point(" << p.x << ", " << p.y << ", " << p.z << ")";
+    return out;
+}
+
 /**********************
 Normal
 **********************/
@@ -190,25 +202,4 @@ inline bool SameSide(const Vector3<T> &v1, const Vector3<T> &v2)
 {
     return Dot(v1, v2) >= 0;
 }
-//
-//template<typename T>
-//inline bool Bounds3<T>::IntersectP(const Ray &ray, float *hitt0,
-//                                   float *hitt1) const
-//{
-//    float t0 = 0, t1 = ray.tMax;
-//    for (int i = 0; i < 3; i++)
-//    {
-//        float di = (float) 1 / ray.d[i];
-//        float tnear = (this->pMin[i] - ray.o[i]) * di;
-//        float tfar = (this->pMax[i] - ray.o[i]) * di;
-//        if (tnear > tfar)std::swap(tnear, tfar);
-//        t0 = tnear > t0 ? tnear : t0;
-//        t1 = tfar < t1 ? tfar : t1;
-//        if (t0 > t1)return false;
-//    }
-//    if (hitt0)*hitt0 = t0;
-//    if (hitt1)*hitt1 = t1;
-//    return true;
-//}
-
 #endif

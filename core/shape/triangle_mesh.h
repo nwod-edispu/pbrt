@@ -2,8 +2,6 @@
 #define RAY_TRIANGLE_MESH_H
 
 #include<vector>
-#include"../component/point.h"
-#include"../component/vec.h"
 #include"shape.h"
 
 
@@ -13,8 +11,9 @@ public:
     TriangleMesh(Material *material);
 
     std::vector<Point3f> vertices;
-//    std::vector<Vector3f> normals;
+    std::vector<Vector3f> normals;
     std::vector<int> vertexIndices;
+    std::vector<int> normalIndices;
     Material* material;
 };
 
