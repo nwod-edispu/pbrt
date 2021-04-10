@@ -12,9 +12,9 @@ int BoxZCompare(const void *a, const void *b);
 class BvhNode : public Shape
 {
 public:
-    BvhNode(Shape **l, int n, float time0, float time1);
+    BvhNode(Shape **l, int n);
 
-    bool Intersect(const Ray &r, float tMin, float tMax, hit_recorder &rec) const;
+    bool Intersect(const Ray &r, float tMin, float tMax, hit_recorder &rec) const override;
 
     bool ObjectBound(Bounds3f &b) const override;
 

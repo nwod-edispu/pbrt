@@ -46,9 +46,9 @@ int BoxZCompare(const void *a, const void *b)
 }
 
 
-BvhNode::BvhNode(Shape **l, int n, float time0, float time1) : Shape(nullptr)
+BvhNode::BvhNode(Shape **l, int n) : Shape(nullptr)
 {
-    left=right=nullptr;
+    left = right = nullptr;
     int axis = int(RandFloat() * 3);
     if (axis == 0)
     {
@@ -69,8 +69,8 @@ BvhNode::BvhNode(Shape **l, int n, float time0, float time1) : Shape(nullptr)
         right = l[1];
     } else
     {
-        left = new BvhNode(l, n / 2, time0, time1);
-        right = new BvhNode(l + n / 2, n - n / 2, time0, time1);
+        left = new BvhNode(l, n / 2);
+        right = new BvhNode(l + n / 2, n - n / 2);
     }
     Bounds3f box_left, box_right;
     if (!left->ObjectBound(box_left) || !right->ObjectBound(box_right))
@@ -91,12 +91,11 @@ bool BvhNode::Intersect(const Ray &r, float tMin, float tMax, hit_recorder &rec)
     if (box.hit(r, tMin, tMax))
     {
         hit_recorder left_rec, right_rec;
-        assert(left!= nullptr&&right!=nullptr);
         bool hit_left = left->Intersect(r, tMin, tMax, left_rec);
         bool hit_right = right->Intersect(r, tMin, tMax, right_rec);
         if (hit_left && hit_right)
         {
-            rec= left_rec.t < right_rec.t ? left_rec: right_rec;
+            rec = left_rec.t < right_rec.t ? left_rec : right_rec;
             return true;
         } else if (hit_left)
         {

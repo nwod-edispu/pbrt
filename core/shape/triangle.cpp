@@ -5,8 +5,8 @@
 #include "triangle.h"
 
 
-Triangle::Triangle(Material *material, TriangleMesh *mesh, int triNumber)
-        : Shape(material), mesh_ptr(mesh)
+Triangle::Triangle(Material *material, TriangleMesh *mesh, int triNumber, bool normalRecorded)
+        : Shape(material), mesh_ptr(mesh), normalRecorded(normalRecorded)
 {
     v = 3 * triNumber;
 
@@ -20,9 +20,10 @@ bool Triangle::Intersect(const Ray &r, float tMin, float tMax, hit_recorder &rec
     Vector3f v01 = p1 - p0;
     Vector3f v12 = p2 - p1;
     Vector3f v20 = p0 - p2;
-    Vector3f normal = (mesh_ptr->normals[mesh_ptr->normalIndices[v]] +
-                       mesh_ptr->normals[mesh_ptr->normalIndices[v + 1]] +
-                       mesh_ptr->normals[mesh_ptr->normalIndices[v + 2]]) / 3.0;
+    Vector3f normal = normalRecorded ? (mesh_ptr->normals[mesh_ptr->normalIndices[v]] +
+                                        mesh_ptr->normals[mesh_ptr->normalIndices[v + 1]] +
+                                        mesh_ptr->normals[mesh_ptr->normalIndices[v + 2]]) / 3.0
+                                     : Unit(Cross(v01, v12));
     rec.mat_ptr = material;
     float t = Dot(p0 - r.o, normal) / Dot(r.d, normal);
     if (t > tMin && t < tMax)
